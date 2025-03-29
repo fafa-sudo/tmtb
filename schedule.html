@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>duty status</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            border: 6px solid #09a12a;
+            background-color: #c0e4ea;
+            text-align: center;
+            justify-content: center;
+            justify-items: center;
+        }
+
+        h1 {
+            background-color: #3515ed;
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            justify-items: center;
+            margin: 0;
+            text-align: center;
+        }
+
+        #loginHeader {
+            display: flex;
+            width:400px;
+            height:40px;
+            justify-content: center;
+            text-align:center;
+            /*display: inline-flex; */
+            align-items: center; /* Vertically center items */
+            font-size: 30px;
+            margin-top: 10px;
+            padding: 10px; /* Add some padding to prevent overflow on small screens */
+            box-sizing: border-box; /* Include padding in width calculations */
+        }
+
+        #mainHeader {
+            display: none;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid gray;
+            padding: 10px;
+            text-align: left;
+            font-size: 22px;
+            font-weight: bold;
+            background-color: white;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .inputContainer {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        button {
+            margin-bottom: 10px;
+            width: auto;
+            flex-grow: 1;
+            flex: 1; /* Allow inputs to grow and fill the space */
+            margin-right: 10px; /* Space between input fields and button */
+            padding: 10px; /* Padding inside inputs */
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .deleteButton {
+            background-color: #dc3545;
+            color:black;
+            border: none;
+            border-radius: 5px;
+        }
+        .deleteButton:hover {
+            background-color:red;
+            color:white;
+            border: black;
+            border-radius: 5px;
+            box-shadow:brown;
+        }
+
+        .editButton {
+            background-color: #ffc107;
+            color: black;
+            border: none;
+            border-radius: 5px;
+        }
+        .editButton:hover {
+            background-color: #440bde;
+            color: white;
+            border: green;
+            border-radius: 5px;
+            box-shadow:blue;
+        }
+
+        .addButton {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .addButton:hover {
+            background-color:green;
+            color: violet;
+            border: none;
+            border-radius: 5px;
+            box-shadow:5px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover {
+            color: black;
+            cursor: pointer;
+        }
+
+        #mainHeader {
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative; /* Position context for absolute elements */
+        }
+
+        .clock {
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 10px;
+            border-radius:6px;
+        }
+
+        .centered-text {
+            text-align: center;
+            margin: 0;
+            font-size: 48px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .nav-buttons {
+            margin: 20px 0;
+        }
+
+        .nav-button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            background-color: #41e60e;
+            color:black;
+        }
+        .duty-status {
+            background-color: rgb(105, 197, 243);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .current-date,
+        .selected-date {
+            border-radius: 5px;
+            color: rgb(88, 13, 218);
+        }
+        
+        .selected-date {
+            background-color: rgb(9, 181, 75);
+            padding: 5px;
+        }
+
+        .current-date {
+            background-color: rgb(174, 215, 25);
+            padding: 5px;
+        }
+
+        .on-duty {
+            background-color: yellow;
+            padding: 5px;
+            border-radius: 5px;
+            color: black;
+        }
+
+        .off-duty {
+            background-color: green;
+            padding: 5px;
+            border-radius: 5px;
+            color: white;
+            margin-top: 30px;
+        }
+        .calculateButt {
+            background-color: green;  /* Background color for button */
+            color: white;             /* Text color */
+            border: none;             /* No border */
+            border-radius: 5px;      /* Rounded corners */
+            padding: 10px;           /* Padding */
+            cursor: pointer;          /* Cursor style */
+            display: flex;            /* Align items horizontally */
+            align-items: center;      /* Center items vertically */
+            font-weight: bold; /* Bold text */
+        }
+
+        .button-icon {
+            margin-right: 5px;       /* Space between icon and text */
+            font-size: 1.2em;        /* Icon size */
+            font-weight: bold; /* Bold text */
+        }
+
+        .calculateButt:hover {
+            background-color: darkgreen; /* Darker shade on hover */
+        }
+
+        .duty-label {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .gray-label {
+            color: rgb(17, 21, 233);
+            background-color: rgba(24, 25, 25, 0.381);
+            font-size: 30px; /* Example font size */
+        }
+        .selecteddate {
+            color: black; /* Text color */
+            background-color: rgba(17, 166, 230, 0.381); /* Background color */
+            font-size: 30px; /* Example font size */
+            font-weight: bold; /* Bold text */
+            padding: 10px; /* Optional padding for better appearance */
+            border-radius: 5px; /* Optional rounded corners */
+        }
+        .dutystatus {
+            background-color: rgb(212, 244, 172);
+            padding: 15px;
+            border-radius: 10px;
+            color: rgb(5, 3, 11);
+            margin: 30px 0;
+        }
+        .duty-status {
+            background-color: rgb(105, 197, 243);
+            color: white;
+            padding: 20px;
+            border-radius: 10px solid blue;
+            margin-top: 40px;
+        }
+        #addCommentBtn:hover{
+            box-shadow:#edcd13;
+            transition-delay:1s ;
+        }
+        .clock {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0 20px; /* Space between the images and the clock */
+            color: white; /* Set clock text color */
+        }
+       
+        #clock {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 20px 20px 20px 20px; /* Space between the images and the clock */
+            color: white; /* Set clock text color */
+            background-color:black;
+            display:inline-block;
+            border-radius:5px solid skyblue;
+        }
+        #username,#password,#loginButton{
+            padding:10px;
+            border:bold;
+            justify-content: center; /* Center the images and clock */
+            align-items: center;
+            color:black;
+            margin-top:3px;
+            width:100%;
+        }
+        #loginButton{
+            justify-content: center; /* Center the images and clock */
+            align-items: center;
+            color:black;  
+            padding: 10px 10px;
+            background-color: #12ca18; /* Button color */
+            border: bold; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor on hover */
+            margin-top:3px;
+            box-shadow:#FF69B4;
+            transition: box-shadow 0.1s ease; /* Smooth transition */
+
+        }
+        #loginButton:hover{
+            color:black;  
+            background-color:rgb(220, 196, 15);
+        }
+       #loginDiv{
+            display:flex;
+           flex-direction: column;  /* Stack elements vertically */
+            background-color: rgb(74, 233, 206); /* Background for the login container */
+            padding: 10px; /* Padding inside the div */
+            border: 10px solid black; /* Slightly rounded corners */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            margin-top:30px; /* Maximum width of the container */
+            width: 400px; /* Full width up to the max width */
+            height:400px;
+            justify-content: center;
+            justify-items: center;
+            box-sizing: border-box; /* Include padding in width calculations */
+            text-align:center;
+            align-items:center;
+            border-radius: 8px;
+        }
+        .inputContainer {
+            display:flex; /* Use flexbox */
+            justify-content: space-between; /* Space between items */
+            align-items: center; /* Center items vertically */
+        }
+        
+    #toggleButtonsBtn:hover{
+        background-color:#edcd13;
+        color:white;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Shadow effect */
+        transition: box-shadow 0.3s ease; /* Smooth transition for shadow */
+    }
+    #toggleButtonsBtn{
+        background-color:#51e62b;
+        color:black;
+        transition: box-shadow 0.5s ease; /* Smooth transition for shadow */
+    }
+    #backBtn {
+        margin-top:0;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease;
+            font-size:20px;
+            font-weight:bold;
+            /*animation: borderCycle 6s infinite; /* Animation for cycling border styles */
+        }
+        #dutyStatusSection{
+            background-color:#aaa;
+            border:1ps solid rgb(147, 237, 83);
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        #dutyStatusSection h1{
+            border-radius: 4px solid black;
+            margin-bottom:5px;
+            background-color: antiquewhite;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            color:#3515ed;
+            font-size: 24px;
+            font-weight: bold;
+
+        }
+        #restrictedHeader,#restrictedFooter{
+         width:1160px;
+         height:40px;
+         border-radius:3px;
+         background-color: rgba(32, 32, 37, 0.691);
+         color:white;
+         margin-left: 20px;
+         margin-right: 20px;
+         font-weight: bold;
+         padding:30px;
+        }
+        /* General styles for labels with class 'duty-label' */
+    .duty-label {
+        font-weight: bold;             /* Make text bold */
+        padding: 10px;                 /* Add padding for better spacing */
+        border-radius: 5px;            /* Rounded corners */
+        margin: 5px 0;                 /* Margin to separate labels */
+    }
+
+    /* Specific styles for 'on-dutytomorrow' */
+    .duty-label.on-dutytomorrow {
+        background-color: #e3e0c3;     /* Yellow background to indicate duty tomorrow */
+        color: #000;                   /* Black text color for contrast */
+        border-color: #ffc107;         /* Darker yellow border */
+    }
+    .duty-label.on-dutyyesterday {
+        background-color: #10ebbf;     /* Yellow background to indicate duty tomorrow */
+        color: #000;                   /* Black text color for contrast */
+        border-color: #1608e4;         /* Darker yellow border */
+    }
+    .tomorrow{
+        background-color: #e3e0c3;
+        border-radius: 5px;
+        border: 2px #edcd13 solid;
+        padding: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .yesterday{
+        background-color: #8cbcc4;
+        border-radius: 5px;
+        border: 2px #032405 solid;
+        padding: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    #loginMessage{
+        display:flex;
+    }
+    .onduty{
+        background-color: gray;
+        border:1px solid yellow;
+        border-radius: 4px;
+        padding:20px;
+    }
+    #comment{
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .inputContainer {
+    display: flex;
+    flex-direction: column; /* Stack input fields vertically */
+    gap: 15px; /* Space between input groups */
+}
+
+.inputWithIcon {
+    display: flex;
+    align-items: center; /* Center align items vertically */
+    position: relative; /* Set relative positioning for icon placement */
+}
+
+.inputWithIcon input {
+    padding-right: 25px; /* Space on the right for the icon */
+    width: 100%; /* Full width */
+    padding: 10px; /* Standard padding */
+    border: 1px solid #ccc; /* Border style */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.inputWithIcon i {
+    position: absolute; /* Position icon absolutely */
+    right: 18px; /* Adjust position from the right */
+    color: black; /* Icon color */
+}
+
+button {
+    padding: 10px; /* Button padding */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #28a745; /* Button color */
+    color: white; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+    </style>
+</head>
+
+<body>
+    <div class="headlogin">
+    <h1 id="loginHeader">Login <i class="fas fa-sign-in-alt"></i></h1>
+</div>
+    <div id="loginDiv">
+        <p id="loginMessage" class="errorMessage" style="color: red;"></p>
+        <div class="inputContainer">
+            <div class="inputWithIcon">
+                <input type="text" id="username" placeholder="user" />
+                <i class="fas fa-user-alt"></i>
+            </div>
+            <div class="inputWithIcon">
+                <input type="password" id="password" placeholder="Password" value="pwd" />
+                <i class="fas fa-lock"></i>
+            </div>
+            <button type="button" id="loginButton"><i class="fas fa-sign-in-alt"></i> Login</button>
+        </div>
+    
+   </div>
+
+
+    <header id="restrictedHeader" class="hidden">
+    <h3 style="text-align: center">STATUS</h3>      
+    </header>
+    <div id="mainHeader" class="hidden">
+            <p class="clock" id="clock">clock</p>
+    </div>
+     <!-- Back button (initially hidden) -->
+     <button id="backBtn" style="display: none;">← Back</button>
+    <!-- Button to toggle the visibility of the nav-buttons -->
+<button id="toggleButtonsBtn" style="display:none;background:#12ca18;font-size:26px;font-weight:bold"><i class="fas fa-users" style="font-size:30px; color:black"></i>view</button>
+<div class="nav-buttons" style="display: none;">
+    <button class="nav-button" id="viewCommentsBtn"><i class="fas fa-comments"></i> View Comments</button>
+    <button class="nav-button" id="viewDutyStatusBtn"><i class="fas fa-clock"></i> View Duty Status</button>   
+</div>    
+        <!-- Comment View -->
+        <div id="commentViewSection" class="hidden">
+            <h1 id="comment">Comment</h1>
+            <div class="inputContainer" id="commentInputContainer">
+                <input type="text" id="comment" placeholder="Enter your comment" />
+                <input type="text" id="writtenBy" placeholder="Written By" />
+                <button type="button" id="addCommentBtn" class="addButton"><i class="fas fa-plus"></i> Add Comment</button>
+            </div>
+            <table id="commentTable">
+                <!--<colgroup>
+                    <col style="width: 8%;">
+                    <col style="width: 60%;">
+                    <col style="width: 20%;">
+                    <col style="width: 10%;">
+                </colgroup>-->
+                <thead>
+                    <tr>
+                        <th>S/No</th>
+                        <th>Comment</th>
+                        <th>Written By</th>
+                        <th class="actionCol">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="commentList"></tbody>
+            </table>
+            <div id="editCommentModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" id="closeCommentEditModal">×</span>
+                    <h2>Edit Comment</h2>
+                    <input type="text" id="editComment" placeholder="Comment" />
+                    <input type="text" id="editWrittenBy" placeholder="Written By" />
+                    <button id="saveCommentEditBtn">Save</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Duty Status Section -->
+        <div id="dutyStatusSection" class="hidden">
+            <h1>Duty Status</h1>
+            
+            <div class="duty-status">
+                <label for="dateInput" style="font-size: 32px; font-weight:bold; color: rgb(139, 55, 6);">Select a date:</label>
+                <input style="padding:10px; height:18px;width:auto;font-size:28px;color:black" type="date" id="dateInput" />
+                <br><br>
+                <button type="button" id="calculateBtn" class="addButton">
+                    <i class="fas fa-calculator button-icon"></i> CALCULATE
+                </button>
+                <br><br>
+                <div id="currentDateLabel" class="gray-label"></div>
+                <div id="result" class="selecteddate"></div>
+            </div>
+        </div>
+    <footer id="restrictedFooter" class="hidden">
+        <p>STATUS   <br>
+        &lt;&lt;&lt;&copy; Fabius. &gt;&gt;&gt;</p>     
+    </footer>
+
+    <script type="module">
+        // Initialize Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, deleteDoc, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDbm1ApKMcu9Q8HwJwKqROgBNndtr1Vl_8",
+            authDomain: "tstdb-8e676.firebaseapp.com",
+            databaseURL: "https://tstdb-8e676-default-rtdb.firebaseio.com",
+            projectId: "tstdb-8e676",
+            storageBucket: "tstdb-8e676.appspot.com",
+            messagingSenderId: "995214869280",
+            appId: "1:995214869280:web:58ce365c970bd53300cd45"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let currentEditId = '';  // ID of the currently edited operator
+        let currentEditCommentId = '';  // ID of the currently edited comment
+        let currentDutyEditId = ''; // ID of the currently edited duty
+        let userRole = '';
+  
+// Handle Login Button Click
+document.getElementById('loginButton').addEventListener('click', async () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    
+    // Simulated login and role check
+    if (username && password) {
+        userRole = username; // Allow username to determine the role
+        setUserInterfaceForRole(userRole); // Set the UI based on user role
+
+        loadDuties();
+        loadComments();
+    } else {
+        document.getElementById('loginMessage').innerText = 'Invalid username or password.';
+        return;
+    }
+});
+
+// Function to set user interface based on role
+function setUserInterfaceForRole(role) {
+    document.getElementById('loginHeader').style.display = 'none';//hide login h1 toggleButtonsBtn
+    document.getElementById('toggleButtonsBtn').style.display = 'block';//show toggleButtonsBtn
+    document.getElementById('loginDiv').classList.add('hidden'); // Hide the login form
+    document.getElementById('mainHeader').style.display = 'block';
+    document.getElementById('tablesDiv').classList.remove('hidden');
+    
+    const inputContainers = document.querySelectorAll('.inputContainer');//commentInputContainer
+    const actionCols = document.querySelectorAll('.actionCol');
+
+    // Set permissions based on user role
+    if (role === 'admin') {
+        // Admin has full access
+        inputContainers.forEach(container => {
+            container.style.display = 'flex'; // Show all input containers
+        });
+        actionCols.forEach(col => {
+            col.style.display = 'block'; // Show all action columns
+        });
+    } else if (role === 'supervisor' || role === 'operator') {
+        // Hide input fields and actions for all tables except the comment table
+        inputContainers.forEach((container, index) => {
+            // Check if the index corresponds to comment input (adjust if needed)
+            if (index <= 12) {
+                container.style.display = 'block'; // Hide input containers for non-comment tables
+            }
+        });
+
+        actionCols.forEach((col, index) => {
+            if (index <= 12) {
+                col.style.display = 'block'; // Hide action columns for non-comment tables
+            }
+        });
+
+        // Hide comment controls for operator
+        if (role === 'operator') {
+            const commentInputContainer = document.querySelector('#commentViewSection .inputContainer');
+            commentInputContainer.style.display = 'block'; // show comment input controls
+
+            const commentActionCols = document.querySelectorAll('#commentTable .actionCol');
+            commentActionCols.forEach(col => {
+            col.style.display = 'block'; // show action columns for comment table
+            });
+        }
+
+        // Show comment controls for supervisor
+        if (role === 'supervisor') {
+            const commentInputContainer = document.querySelector('#commentViewSection .inputContainer');
+            commentInputContainer.style.display = 'flex'; // Show comment input controls
+
+            const commentActionCols = document.querySelectorAll('#commentTable .actionCol');
+            commentActionCols.forEach(col => {
+                col.style.display = 'block'; // Show action columns for comment table
+            });
+        }
+    }
+}
+
+function toggleActionColumn(userRole) {
+            const actionColumns = document.querySelectorAll('.actionCol');
+            const addOperatorContainer = document.getElementById('addOperatorContainer');
+
+            if (userRole === 'operator' || userRole === 'admin') {
+                actionColumns.forEach(column => column.style.display = 'block'); // show action columns for onduty
+                //addOperatorContainer.style.display = 'none'; // Hide add operator section for onduty
+            } else {
+                actionColumns.forEach(column => column.style.display = 'table-cell'); // Show action columns for supervisor
+                addOperatorContainer.style.display = 'flex'; // Show add operator section for supervisor
+            }
+        }
+
+        // Handle Login Button Click
+        document.getElementById('loginButton').addEventListener('click', () => {
+            const username = document.getElementById('username').value,
+              password = document.getElementById('password').value ;
+
+            // Simulated login for supervisor, admin, and operator
+            if (username === 'user' && password === 'pwd') {
+                userRole = 'supervisor';
+                loginSuccess();
+            } else if (username === 'ops' && password === 'ops' || 
+                        username === '12' && password === '12' 
+            ) {
+                userRole = 'operator';
+                loginSuccess();
+            } else if (username === 'adm' && password === 'adm') {
+                userRole = 'admin';
+                loginSuccess();
+            } else {
+                document.getElementById('loginMessage').innerText = 'Invalid username or password.';
+                document.getElementById('toggleButtonsBtn').style.display='none';
+                document.getElementById('mainHeader').style.display = 'none';
+            }
+            toggleActionColumn(userRole); // Adjust UI based on user role
+        });
+
+        function loginSuccess() {
+            document.getElementById('loginDiv').style.display = 'none';
+            document.getElementById('loginHeader').style.display = 'none'; // Hide login header
+            document.getElementById('mainHeader').style.display = 'block';
+            document.getElementById('restrictedFooter').style.display='block';
+            document.getElementById('restrictedHeader').style.display='block';
+            document.getElementById('toggleButtonsBtn').style.display='block';
+            //document.getElementById('operatorsButton').style.display = 'block'; // Show the operators button
+            document.getElementById('tablesDiv').style.display = 'block';
+            loadOperators();
+            document.getElementById('editModal').style.display = 'none'; // Ensure edit modal is hidden after logging in
+        }
+        // Handle Enter key press for login
+    document.getElementById('username').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            loginSuccess();
+        }
+    });
+
+    document.getElementById('password').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            loginSuccess();
+        }
+    });
+
+ // Comment Management
+        const loadComments = () => {
+            onSnapshot(collection(db, "comments"), snapshot => {
+                const comments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderComments(comments);
+            });
+        };
+
+        const renderComments = (comments) => {
+            const tbody = document.getElementById('commentList');
+            tbody.innerHTML = '';
+            comments.forEach((comment, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${comment.comment}</td>
+                    <td>${comment.writtenBy}</td>
+                    <td class="actionCol" style="${(userRole === 'operator') ? 'display:none;' : ''}">
+                        <button class="editButton" data-id="${comment.id}" style="${(userRole === 'admin' || userRole === 'supervisor') ? '' : 'display:none;'}"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="deleteButton" data-id="${comment.id}" style="${(userRole === 'admin' || userRole === 'supervisor') ? '' : 'display:none;'}"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            attachCommentEditDeleteListeners(); // Attach listeners to new entries
+        };
+
+        const attachCommentEditDeleteListeners = () => {
+            const editButtons = document.querySelectorAll('#commentList .editButton');
+            const deleteButtons = document.querySelectorAll('#commentList .deleteButton');
+
+            editButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const commentId = event.target.dataset.id;
+                    const commentRef = doc(db, "comments", commentId);
+                    const commentSnap = await getDoc(commentRef);
+                    const comment = commentSnap.data();
+
+                    document.getElementById('editComment').value = comment.comment;
+                    document.getElementById('editWrittenBy').value = comment.writtenBy;
+
+                    currentEditCommentId = commentId; // Store ID for updating
+                    document.getElementById('editCommentModal').style.display = 'block';
+                });
+            });
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const commentId = event.target.dataset.id;
+                    if (confirm("Are you sure you want to delete this comment?")) {
+                        await deleteDoc(doc(db, 'comments', commentId));
+                    }
+                });
+            });
+        };
+
+        // Add or Update Comment
+        document.getElementById('addCommentBtn').addEventListener('click', async () => {
+            const commentData = {
+                comment: document.getElementById('comment').value,
+                writtenBy: document.getElementById('writtenBy').value,
+            };
+
+            if (currentEditCommentId) {
+                // Update existing comment
+                await updateDoc(doc(db, 'comments', currentEditCommentId), commentData);
+                alert("Comment updated successfully!");
+                clearCommentFields();
+                currentEditCommentId = ''; // Reset after update
+            } else {
+                // Add new comment
+                if (commentData.comment && commentData.writtenBy) {
+                    await addDoc(collection(db, 'comments'), commentData);
+                    alert("Comment added successfully!");
+                    clearCommentFields();
+                } else {
+                    alert('All fields are required.');
+                }
+            }
+            loadComments();
+        });
+
+        // Clear Comment fields
+            const clearCommentFields = () => {
+            document.getElementById('comment').value = '';
+            document.getElementById('writtenBy').value = '';
+        };
+
+        // Handle Comment Edit
+        document.getElementById('commentViewSection').addEventListener('click', async (event) => {
+            const target = event.target.closest('button');
+            if (target) {
+                const id = target.getAttribute('data-id');
+                if (target.classList.contains('deleteButton')) {
+                    if (confirm("Are you sure you want to delete this comment?")) {
+                        await deleteDoc(doc(db, 'comments', id));
+                    }
+                } else if (target.classList.contains('editButton')) {
+                    const docRef = doc(db, 'comments', id);
+                    const docSnap = await getDoc(docRef);
+                    const comment = docSnap.data();
+
+                    document.getElementById('editComment').value = comment.comment;
+                    document.getElementById('editWrittenBy').value = comment.writtenBy;
+
+                    currentEditCommentId = id;
+                    document.getElementById('editCommentModal').style.display = 'block';
+                }
+            }
+        });
+
+        // Save changes for comments
+        document.getElementById('saveCommentEditBtn').addEventListener('click', async () => {
+            if (currentEditCommentId) {
+                const updatedData = {
+                    comment: document.getElementById('editComment').value,
+                    writtenBy: document.getElementById('editWrittenBy').value,
+                };
+
+                await updateDoc(doc(db, 'comments', currentEditCommentId), updatedData);
+                clearCommentEditFields();
+                document.getElementById('editCommentModal').style.display = 'none';
+                loadComments(); // Reload comments to reflect changes
+            }
+        });
+
+        const clearCommentEditFields = () => {
+            document.getElementById('editComment').value = '';
+            document.getElementById('editWrittenBy').value = '';
+        };
+
+        document.getElementById('closeCommentEditModal').onclick = function () {
+            document.getElementById('editCommentModal').style.display = 'none';
+        };
+
+        // Duty Status Calculation
+       document.getElementById('calculateBtn').addEventListener('click', function() {
+            const inputDate = document.getElementById("dateInput").value;
+            const parsedDate = new Date(inputDate);
+
+            if (!isNaN(parsedDate)) {
+                const dayOfWeek = parsedDate.toLocaleDateString(undefined, { weekday: 'long' });
+                const dutyStatus = getDutyStatus(parsedDate);
+                document.getElementById("result").innerHTML = `<br>
+                    <span class="blue-text">The selected date: <strong class="selected-date">${inputDate}</strong> (${dayOfWeek})</span><br><br>
+                   ${dutyStatus}`;
+            } else {
+                document.getElementById("result").innerHTML = "Invalid date.";
+            }
+        });
+         // Handle Enter key press to trigger calculate button click
+    document.getElementById('calculateBtn').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            getGroupStatus(); // Call the calculate function directly upon Enter
+        }
+    });
+
+        function getGroupStatus(dayIndex, groupName) {
+            let groupStatusHTML = `<br><br>`;
+            if (dayIndex === 0) {
+                groupStatusHTML += `<div class="tomorrow">
+                                 <p><marquee><mark style="color:blue;">Next Day:</mark></marquee></p>
+                                 <label class="duty-label on-dutytomorrow">${groupName}1: on duty during the day.</label><br><br>
+                                 <label class="duty-label on-dutytomorrow">${groupName}2: on duty throughout the night.</label><br><br>
+                                 </div><br><br>
+                                 <label class="duty-label off-duty">${groupName}1: Off duty</label><br><br>
+                                 <label class="duty-label off-duty">${groupName}2: Off duty</label><br><br>
+                                 <div class="yesterday">
+                                <p><marquee><mark style="color:green">One day Before:</mark></marquee></p>
+                                <label class="duty-label on-dutyyesterday">${groupName}1: on duty throughout the night.</label><br><br>
+                                <label class="duty-label on-dutyyesterday">${groupName}2: on duty during the day.</label><br><br>
+                                </div> <br><br>`;
+            } else if (dayIndex === 1) {
+                groupStatusHTML += `<div class="onduty">
+                                    <label class="duty-label on-duty">${groupName}1: on duty throughout the night.</label><br><br>
+                                    <label class="duty-label on-duty">${groupName}2: on duty during the day.</label><br><br>
+                                    </div>`;
+            } 
+            else if(dayIndex === 2){
+                groupStatusHTML +=`<div class="tomorrow">
+                                 <p><marquee><mark  style="color:blue;">Next Day:</mark></marquee></p>
+                                 <label class="duty-label on-dutytomorrow">${groupName}1:on duty throughout the night.</label><br><br>
+                                 <label class="duty-label on-dutytomorrow">${groupName}2: on duty during the day.</label><br><br>
+                                 </div><br><br>
+                                 <label class="duty-label off-duty">${groupName}1: Off duty</label><br><br>
+                                 <label class="duty-label off-duty">${groupName}2: Off duty</label><br><br>
+                                 <div class="yesterday">
+                                 <p><marquee><mark style="color:green">One day Before:</mark></marquee></p>
+                                 <label class="duty-label on-dutyyesterday">${groupName}1: on duty during the day.</label><br><br>
+                                 <label class="duty-label on-dutyyesterday">${groupName}2: on duty throughout the night.</label><br><br>
+                                  </div>`;
+         }else if (dayIndex === 3) {
+                groupStatusHTML += `<div class="onduty">
+                                    <label class="duty-label on-duty">${groupName}1: on duty throughout the night.</label><br><br>
+                                    <label class="duty-label on-duty">${groupName}2: on duty during the day.</label><br><br>
+                                    </div>`;
+            }
+            return groupStatusHTML;
+        }
+
+        function getDutyStatus(date) {
+            const startDate1 = new Date(2024, 1, 13); // TEAM A starts duty
+            const startDate2 = new Date(2024, 1, 14); // TEAM B starts duty
+
+            const difference1 = date - startDate1;
+            const difference2 = date - startDate2;
+
+            const daysDifference1 = Math.floor(difference1 / (1000 * 60 * 60 * 24));
+            const daysDifference2 = Math.floor(difference2 / (1000 * 60 * 60 * 24));
+
+            const cycleLength = 4; // Number of days in the duty cycle
+            const dayIndex1 = daysDifference1 % cycleLength;
+            const dayIndex2 = daysDifference2 % cycleLength;
+
+            const TEAMAStatus = getGroupStatus(dayIndex1, "TEAM A");
+            const TEAMBStatus = getGroupStatus(dayIndex2, "TEAM B");
+
+            return `${TEAMAStatus}<br>${TEAMBStatus}`;
+        }
+
+        // Call the function to display the current date on page load
+        displayCurrentDate();
+
+        // Display the current date
+        function displayCurrentDate() {
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString(undefined, options);
+            document.getElementById("currentDateLabel").innerText = `Today's date is on the ${formattedDate}`;
+        }
+        // Section Navigation
+        const sections = ['commentViewSection', 'dutyStatusSection'];
+
+        sections.forEach(section => {
+            document.getElementById(section).classList.add('hidden');
+        });
+
+        // Section displaying logic
+        const toggleSections = (activeSection) => {
+            sections.forEach(section => {
+                if (section === activeSection) {
+                    document.getElementById(section).classList.remove('hidden');
+                } else {
+                    document.getElementById(section).classList.add('hidden');
+                }
+            });
+        };
+
+        document.getElementById('viewCommentsBtn').addEventListener('click', () => toggleSections('commentViewSection'));
+        document.getElementById('viewDutyStatusBtn').addEventListener('click', () => toggleSections('dutyStatusSection'));
+    
+        document.getElementById('closeCommentEditModal').onclick = function () {
+        document.getElementById('editCommentModal').style.display = 'none';
+        };
+        // Handle the "All Buttons" toggle || creating variables for each section table or button |||
+        let isLoggedIn = false; // Variable to track login status
+        const toggleButtonsBtn = document.getElementById('toggleButtonsBtn');
+        const navButtons = document.querySelector('.nav-buttons');
+        const backBtn = document.getElementById('backBtn'); // back button
+        
+    // Handle the "All Buttons" toggle
+    toggleButtonsBtn.addEventListener('click', function() {
+        // Hide the "All Buttons" button and show the navigation buttons
+        toggleButtonsBtn.style.display = 'none'; // Hide "All Buttons"
+        navButtons.style.display = 'block'; // Show navigation buttons
+        backBtn.style.display = 'block'; // Show the Back button   
+    });
+
+    // Handle each nav-button click
+        document.querySelectorAll('.nav-button').forEach(button => {
+        button.addEventListener('click', function() {
+        console.log(`Button clicked: ${this.innerText.trim()}`);
+            // Additional actions based on which button was clicked can be implemented here
+        });
+    });
+
+    // testing all buttons click on |||
+     // Define the sections to hide
+const section = [
+    'commentViewSection',
+    'dutyStatusSection',
+    ];
+
+// Handle the "All Buttons" toggle
+toggleButtonsBtn.addEventListener('click', function() {
+    // Hide all sections
+    section.forEach(section => {
+        document.getElementById(section).classList.add('hidden'); // or style.display = 'none'
+    });
+
+    // Hide the navigation buttons
+    navButtons.style.display = 'block'; // Hide navigation buttons
+
+    // Show the relevant controls: 
+    backBtn.style.display = 'block'; // Show the Back button
+});
+    // end of testing on all buttons click |||
+
+   // Handle the Back button click
+    backBtn.addEventListener('click', function() {
+        // Hide navigation buttons and show the "All Buttons" button
+        navButtons.style.display = 'none'; // Hide navigation buttons
+        toggleButtonsBtn.style.display = 'block'; // Show "All Buttons"
+        backBtn.style.display = 'none'; // Hide the Back button
+    });
+    //code for handling back button start
+     // Define the states of the button
+     const buttonStates = [
+            {
+                text: '← Back', // First state (Back)
+                action: function() {
+                    alert('Going back...');
+                }
+            },
+            {
+                text: '↔ Refresh', // Second state (Refresh)
+                action: function() {
+                    //alert('Refreshing...');
+                }
+            },
+            {
+                text: '→ Next', // Third state (Next)
+                action: function() {
+                    //alert('Going next...');
+                }
+            }
+        ];
+
+        let currentStateIndex = 0; // Start at the first state
+
+        // Get the button element
+        const backbtn = document.getElementById('backBtn');
+
+        // Set initial state
+        backbtn.innerHTML = buttonStates[currentStateIndex].text;
+
+        // Handle button clicks
+        backbtn.addEventListener('click', function() {
+            // Run the current state's action
+            buttonStates[currentStateIndex].action();
+
+            // Move to the next state, wrapping around if necessary
+            currentStateIndex = (currentStateIndex + 1) % buttonStates.length;
+
+            // Update button text
+            backbtn.innerHTML = buttonStates[currentStateIndex].text;
+        });
+
+        function updateTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0'); // Ensures two digits
+            const minutes = String(now.getMinutes()).padStart(2, '0'); // Ensures two digits
+            const seconds = String(now.getSeconds()).padStart(2, '0'); // Ensures two digits
+            const timeString = `${hours}:${minutes}:${seconds}`;
+
+            document.getElementById('clock').textContent = timeString; // Display the time
+        }
+
+        // Toggle Operators on Duty visibility and details
+        const dutyStatusbtn = document.getElementById('dutyStatusSection');
+
+        dutyStatusbtn.addEventListener('mouseenter', () => {
+            dutyStatusbtn.style.backgroundColor = '#0056b3'; // Change to a darker blue
+        });
+
+        dutyStatusbtn.addEventListener('mouseleave', () => {
+        dutyStatusbtn.style.backgroundColor = '#007BFF'; // Revert to original blue
+        });
+
+        dutyStatusbtn.addEventListener('click', () => {
+            const operatorsHeader = document.getElementById('operatorsHeader');
+            const clock = document.getElementById('clock');
+            const tablesDiv = document.getElementById('tablesDiv');
+
+            // Display header and clock
+            if (operatorsHeader.style.display === 'none') {
+                operatorsHeader.style.display = 'block'; // Show the Operators header
+                clock.style.display = 'block'; // Show the clock
+                tablesDiv.style.display = 'block'; // Show tables
+                updateTime(); // Update time immediately
+            } else {
+                operatorsHeader.style.display = 'none'; // Hide it
+                clock.style.display = 'none'; // Hide clock
+                tablesDiv.style.display = 'none'; // Hide tables
+            }
+        });
+
+        setInterval(updateTime, 1000); // Update the time every second
+        updateTime(); // Initial call to display the time immediately
+   
+   </script>
+</body>
+
+</html>
