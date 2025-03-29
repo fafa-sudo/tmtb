@@ -939,6 +939,7 @@ function toggleActionColumn(userRole) {
                                  <label class="duty-label on-dutytomorrow">${groupName}2: on duty throughout the night.</label><br><br>
                                  </div><br><br>
                                  <div class="offduty">
+                                  <P style="color:green"><u>OFF STATE:</u></P>
                                  <label class="duty-label off-duty">${groupName}1: Off duty</label><br><br>
                                  <label class="duty-label off-duty">${groupName}2: Off duty</label><br><br>
                                  </div>
@@ -949,6 +950,7 @@ function toggleActionColumn(userRole) {
                                 </div> <br><br>`;
             } else if (dayIndex === 1) {
                 groupStatusHTML += `<div class="onduty">
+                                    <p style="color:yellow"><strong><u>ON STATE:</u></strong></P>
                                     <label class="duty-label on-duty">${groupName}1: on duty throughout the night.</label><br><br>
                                     <label class="duty-label on-duty">${groupName}2: on duty during the day.</label><br><br>
                                     </div>`;
@@ -960,6 +962,7 @@ function toggleActionColumn(userRole) {
                                  <label class="duty-label on-dutytomorrow">${groupName}2: on duty during the day.</label><br><br>
                                  </div><br><br>
                                  <div class="offduty">
+                                 <P style="color:green"><u>OFF STATE:</u></P>
                                  <label class="duty-label off-duty">${groupName}1: Off duty</label><br><br>
                                  <label class="duty-label off-duty">${groupName}2: Off duty</label><br><br>
                                  </div>
@@ -970,6 +973,7 @@ function toggleActionColumn(userRole) {
                                   </div>`;
          }else if (dayIndex === 3) {
                 groupStatusHTML += `<div class="onduty">
+                                     <p style="color:yellow"><strong><u>ON STATE:</u></strong></P>
                                     <label class="duty-label on-duty">${groupName}1: on duty throughout the night.</label><br><br>
                                     <label class="duty-label on-duty">${groupName}2: on duty during the day.</label><br><br>
                                     </div>`;
