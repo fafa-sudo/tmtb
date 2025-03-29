@@ -234,14 +234,14 @@
         }
 
         .on-duty {
-            background-color: yellow;
+           /* background-color: yellow;*/
             padding: 5px;
             border-radius: 5px;
             color: black;
         }
 
         .off-duty {
-            background-color: green;
+            /*background-color: green;*/
             padding: 5px;
             border-radius: 5px;
             color: white;
@@ -434,14 +434,14 @@
 
     /* Specific styles for 'on-dutytomorrow' */
     .duty-label.on-dutytomorrow {
-        background-color: #e3e0c3;     /* Yellow background to indicate duty tomorrow */
+        /*background-color: #e3e0c3; */    /* Yellow background to indicate duty tomorrow */
         color: #000;                   /* Black text color for contrast */
-        border-color: #ffc107;         /* Darker yellow border */
+               /* Darker yellow border */
     }
     .duty-label.on-dutyyesterday {
-        background-color: #10ebbf;     /* Yellow background to indicate duty tomorrow */
+        /*background-color: #10ebbf; */    /* Yellow background to indicate duty tomorrow */
         color: #000;                   /* Black text color for contrast */
-        border-color: #1608e4;         /* Darker yellow border */
+       /* border-color: #1608e4;   */      /* Darker yellow border */
     }
     .tomorrow{
         background-color: #e3e0c3;
@@ -462,12 +462,7 @@
     #loginMessage{
         display:flex;
     }
-    .onduty{
-        background-color: gray;
-        border:1px solid yellow;
-        border-radius: 4px;
-        padding:20px;
-    }
+    
     #comment{
         justify-content: center;
         margin-top: 10px;
@@ -507,6 +502,18 @@ button {
     color: white; /* Text color */
     cursor: pointer; /* Pointer cursor on hover */
 }
+    .offduty{
+         background-color:skyblue;
+        border:2px solid green;
+        border-radius:3px;
+        padding:10px;
+    }
+       .onduty{
+        background-color: gray;
+        border:1px solid yellow;
+        border-radius: 4px;
+        padding:20px;
+    }
     </style>
 </head>
 
@@ -931,8 +938,10 @@ function toggleActionColumn(userRole) {
                                  <label class="duty-label on-dutytomorrow">${groupName}1: on duty during the day.</label><br><br>
                                  <label class="duty-label on-dutytomorrow">${groupName}2: on duty throughout the night.</label><br><br>
                                  </div><br><br>
+                                 <div class="offduty">
                                  <label class="duty-label off-duty">${groupName}1: Off duty</label><br><br>
                                  <label class="duty-label off-duty">${groupName}2: Off duty</label><br><br>
+                                 </div>
                                  <div class="yesterday">
                                 <p><marquee><mark style="color:green">One day Before:</mark></marquee></p>
                                 <label class="duty-label on-dutyyesterday">${groupName}1: on duty throughout the night.</label><br><br>
@@ -950,8 +959,10 @@ function toggleActionColumn(userRole) {
                                  <label class="duty-label on-dutytomorrow">${groupName}1:on duty throughout the night.</label><br><br>
                                  <label class="duty-label on-dutytomorrow">${groupName}2: on duty during the day.</label><br><br>
                                  </div><br><br>
+                                 <div class="offduty">
                                  <label class="duty-label off-duty">${groupName}1: Off duty</label><br><br>
                                  <label class="duty-label off-duty">${groupName}2: Off duty</label><br><br>
+                                 </div>
                                  <div class="yesterday">
                                  <p><marquee><mark style="color:green">One day Before:</mark></marquee></p>
                                  <label class="duty-label on-dutyyesterday">${groupName}1: on duty during the day.</label><br><br>
